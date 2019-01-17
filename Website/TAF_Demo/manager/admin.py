@@ -8,7 +8,7 @@ class TestSuiteAdmin(admin.ModelAdmin):
     list_display_links = ['name', 'description', 'date_create', 'author']
     date_hierarchy = 'date_create'
     ordering = ('date_create',)
-
+    filter_horizontal = ['test_case']
     list_per_page = 10
     list_filter = ['date_create', 'author']
     search_fields = ['name', 'description']
