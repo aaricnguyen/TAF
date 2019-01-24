@@ -30,6 +30,10 @@ class WebService(object):
                 )
             return ResponseObject(response)
 
+    def verify_url(self, response_obj, expected_url):
+        assert response_obj.get_ulr() == expected_url, 'URL is mismatched as expected: {} instead of {}'.format(response_obj.get_ulr(), expected_url)
+        print ('URL is matched as expected: {}'.format(response_obj.get_ulr()))
+
     def verify_response_status_code(self, response_obj, expected_status_code):
         assert response_obj.get_status_code() == expected_status_code, 'Status code is mismatched as expected: {} instead of {}'.format(expected_status_code, response_obj.get_status_code())
         print ('Status code is matched as expected: {}'.format(expected_status_code))
@@ -50,26 +54,74 @@ class WebService(object):
     
     def contains_string(self, response_obj, string):
         pass
+    
+    def verify_something_more(self):
+        pass
 
+def main():
+    demo_status_code()
+    demo_headers()
+    demo_body_response()
 
-if __name__ == "__main__":
+def demo_status_code():
+    # Create a Request Object
+    req = RequestObject()
+    req.set_url('https://httpbin.org/post')
+    req.set_method('Post')
+    req.set_data({'key1':'value1'})
+    # Create a Web Service allow sent request
+    ws = WebService("Demo")
+    res = ws.send_request(req)
+    print ('--- Get URL')
+    print (res.get_ulr())
+    print ('--- Get Status Code')
+    print (res.get_status_code())
+
+def demo_headers():
+    # Create a Request Object
+    req = RequestObject()
+    req.set_url('https://httpbin.org/post')
+    req.set_method('Post')
+    req.set_data({'key1':'value1'})
+    # Create a Web Service allow sent request
+    ws = WebService("Demo")
+    res = ws.send_request(req)
+    print ('--- Get Headers')
+    print (res.get_headers())
+
+def demo_body_response():
+    # Create a Request Object
+    req = RequestObject()
+    req.set_url('https://httpbin.org/post')
+    req.set_method('Post')
+    req.set_data({'key1':'value1'})
+    # Create a Web Service allow sent request
+    ws = WebService("Demo")
+    res = ws.send_request(req)
+    print ('--- Get Body Content As Json')
+    print (res.get_body_response_as_json())
+    print ('--- Get Body Content As Text')
+    print (res.get_body_response_as_text())
+    print ('--- Get Body Content As Bytes')
+    print (res.get_body_response_as_bytes())
+
+def demo_verify():
+    print('Start Demo 2')
+
     WS = WebService('My Web Service')
     
-    request_obj = RequestObject()
-    request_obj.set_name('Get The GitHub\'s public timeline')
-    request_obj.set_url('https://api.github.com/events')
-    request_obj.set_method('GET')
+    request = RequestObject()
+    request.set_name('Get The GitHub\'s public timeline')
+    request.set_url('https://api.github.com/events')
+    request.set_method('GET')
     
-    response_obj = WS.send_request(request_obj)
-    WS.verify_response_status_code(response_obj, 200)
-    WS.verify_content_type(response_obj, "application/json; charset=utf-8")
-    
-# 
-#     web_service = WebService()
-#     response_object = web_service.send_request('GET', 'http://api.open-notify.org/iss-now.json')
-#     print(web_service.verify_response_status_code(response_object, 200))
-#     print(web_service.verify_response_status_code_in_range(response_object, 180, 200))  
-#     print(web_service.verify_content_type(response_object, 'application/json'))
+    response = WS.send_request(request)
+    WS.verify_response_status_code(response, 200)
+    WS.verify_content_type(response, "application/json; charset=utf-8")
+
+if __name__ == "__main__":
+    main()
+
 #     print(response_object.text)
 #     print(response_object.json())
 #     print(response_object.content)
