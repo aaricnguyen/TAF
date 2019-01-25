@@ -6,40 +6,38 @@ class ResponseObject():
 
     @property
     def get_status_code(self):
+        """Return The Status Code"""
         return self.response.status_code
     
     @property
     def get_elapsed_time(self):
-        return self.response.elapsed
+        """Return The Time Response In Milliseconds"""
+        return self.response.elapsed.microseconds / 1000
     
     @property
     def get_ulr(self):
+        """Return The URL Response In String"""
         return self.response.url
     
     @property
     def get_body_response_as_json(self):
-        """Return a JSON Response Content"""
+        """Return The Body Response As JSON"""
         return self.response.json()
     
     @property
     def get_body_response_as_text(self):
-        """Return a Text Response Content"""
+        """Return The Body Response As Text"""
         return self.response.text
 
     @property
     def get_body_response_as_bytes(self):
-        """Return a Binary Response Content"""
+        """Return The Body Response As Bytes"""
         return self.response.content
     
     @property
     def get_body_response_raw(self):
-        """Return a Binary Response Content"""
-        self.response.str   
+        """Return The Body Response Raw""" 
         return self.response.raw
-    
-    @property
-    def get_response_body_size(self):
-        pass
 
     @property
     def get_headers(self):
@@ -48,15 +46,3 @@ class ResponseObject():
     @property
     def get_content_type(self):
         return self.response.headers['Content-Type']
-
-    @property
-    def get_response_header_size(self):
-        pass
-    
-    @property
-    def is_json_content_type(self):
-        pass
-    
-    @property
-    def is_text_content_type(self):
-        pass

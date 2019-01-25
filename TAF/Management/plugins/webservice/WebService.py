@@ -32,7 +32,7 @@ class WebService(object):
 
     def verify_url(self, response_obj, expected_url):
         assert response_obj.get_ulr == expected_url, 'URL is mismatched as expected: {} instead of {}'.format(response_obj.get_ulr, expected_url)
-        print ('URL is matched as expected: {}'.format(response_obj.get_ulr()))
+        print ('URL is matched as expected: {}'.format(response_obj.get_ulr))
 
     def verify_response_status_code(self, response_obj, expected_status_code):
         assert response_obj.get_status_code == expected_status_code, 'Status code is mismatched as expected: {} instead of {}'.format(expected_status_code, response_obj.get_status_code)
@@ -46,20 +46,19 @@ class WebService(object):
         assert response_obj.get_content_type == expected_content_type, 'Content-Type is mismatched as expected: {} instead of {}'.format(expected_content_type, response_obj.get_content_type)
         print ('Content-Type is matched as expected: {}'.format(expected_content_type))
   
-    def verify_header_fields(self):
-        pass
-    
-    def verify_body_response(self, response_obj, body_response):
-        pass
-    
+    def verify_header_fields(self, response_obj, header_fields):
+        return header_fields == response_obj.get_headers
+       
     def verify_body_response_has_contains_string(self, response_obj, string):
-        pass
+        return string in response_obj.get_body_response_as_text
     
     def verify_body_response_equal_to_a_string(self, response_obj, string):
-        pass
+        return string == response_obj.get_body_response_as_text
     
     def verify_response_time_less_than(self, response_obj, expected_time_in_miliseconds):
-        pass
+        assert int(response_obj.get_elapsed_time) < int(expected_time_in_miliseconds), "Time response equal to {} is more than or equal to expected time {}".format(response_obj.get_elapsed_time, expected_time_in_miliseconds)
+        print ('Time response as expected: {} ms less than {} ms'.format(response_obj.get_elapsed_time, expected_time_in_miliseconds))
     
     def verify_response_time_in_range(self, response_obj, from_time_in_miliseconds, to_time_in_miliseconds):
-        pass
+        assert from_time_in_miliseconds <= response_obj.get_elapsed_time <= to_time_in_miliseconds, "Time response equal to {} out of range [{}, {}] ms".format(response_obj.get_elapsed_time, from_time_in_miliseconds, to_time_in_miliseconds)
+        print ('Time response is {} in range: [{},{}] ms '.format(response_obj.get_elapsed_time,from_time_in_miliseconds, to_time_in_miliseconds))
